@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ojochogwu Micah Okwute — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --cream: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8d5a3;
+    --rust: #c0392b;
+    --sage: #4a6741;
+    --mid: #6b6459;
+    --line: rgba(13,13,13,0.12);
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: .5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(245,240,232,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700; letter-spacing: .04em;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: .8rem; text-transform: uppercase; letter-spacing: .12em;
+    color: var(--mid); text-decoration: none; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    padding: 12rem 4rem 5rem 5rem;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: .8rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block; width: 2rem; height: 1px; background: var(--gold);
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    line-height: 1.0;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+  .hero-name em { font-style: italic; color: var(--gold); }
+
+  .hero-title {
+    font-size: 1rem; font-weight: 400; color: var(--mid);
+    letter-spacing: .04em; margin-bottom: 2.5rem; line-height: 1.6;
+    max-width: 380px;
+  }
+
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-bottom: 3rem;
+  }
+  .stat { border-left: 2px solid var(--gold); padding-left: 1rem; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; font-weight: 700; line-height: 1;
+    color: var(--ink);
+  }
+  .stat-label { font-size: .72rem; color: var(--mid); letter-spacing: .08em; text-transform: uppercase; margin-top: .3rem; }
+
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 1rem;
+    background: var(--ink); color: var(--cream);
+    padding: .9rem 2.2rem; font-size: .82rem;
+    letter-spacing: .12em; text-transform: uppercase;
+    text-decoration: none; font-weight: 500;
+    transition: all .3s; align-self: flex-start;
+  }
+  .hero-cta:hover { background: var(--gold); color: var(--ink); }
+  .hero-cta svg { transition: transform .3s; }
+  .hero-cta:hover svg { transform: translateX(4px); }
+
+  .hero-right {
+    background: var(--ink);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .hero-graphic {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .concentric {
+    position: relative; width: 420px; height: 420px;
+  }
+  .concentric-ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.25);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    animation: spin linear infinite;
+  }
+  .concentric-ring:nth-child(1) { width: 420px; height: 420px; animation-duration: 40s; }
+  .concentric-ring:nth-child(2) { width: 320px; height: 320px; animation-duration: 30s; animation-direction: reverse; border-style: dashed; }
+  .concentric-ring:nth-child(3) { width: 220px; height: 220px; animation-duration: 20s; }
+  .concentric-ring:nth-child(4) { width: 120px; height: 120px; border: 2px solid var(--gold); animation-duration: 12s; animation-direction: reverse; }
+
+  @keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+  .hero-tag {
+    position: absolute;
+    font-family: 'DM Mono', monospace;
+    font-size: .68rem; color: rgba(201,168,76,0.7);
+    letter-spacing: .15em; text-transform: uppercase;
+  }
+  .tag-1 { top: 20%; left: 10%; }
+  .tag-2 { bottom: 25%; right: 8%; }
+  .tag-3 { top: 50%; left: 5%; }
+
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 5rem;
+    display: flex; align-items: center; gap: .8rem;
+    font-size: .7rem; color: var(--mid); letter-spacing: .15em; text-transform: uppercase;
+  }
+  .scroll-line { width: 2rem; height: 1px; background: var(--mid); }
+
+  /* ── SECTION BASE ── */
+  section { padding: 7rem 5rem; }
+  .section-header { margin-bottom: 4rem; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: .7rem;
+  }
+  .section-label::before {
+    content: attr(data-num);
+    font-size: .65rem; color: rgba(201,168,76,0.5);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 700; line-height: 1.15;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 0 5rem;
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    background: var(--white);
+    display: grid; grid-template-columns: 1fr 1.4fr; gap: 6rem; align-items: center;
+  }
+  .about-visual {
+    position: relative;
+  }
+  .about-card {
+    background: var(--ink); color: var(--cream);
+    padding: 3rem;
+    position: relative;
+  }
+  .about-card::after {
+    content: '';
+    position: absolute; bottom: -1rem; right: -1rem;
+    width: 100%; height: 100%;
+    border: 1px solid var(--gold);
+    z-index: -1;
+  }
+  .about-card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+  }
+  .about-card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 700; line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .about-card-role {
+    font-size: .82rem; color: rgba(245,240,232,0.6);
+    line-height: 1.6; margin-bottom: 2rem;
+  }
+  .about-badges { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .badge {
+    font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+    padding: .3rem .7rem; border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold-light);
+  }
+  .about-text { font-size: 1rem; line-height: 1.85; color: #3a3530; }
+  .about-text p + p { margin-top: 1.2rem; }
+  .highlight { color: var(--gold); font-weight: 500; }
+  .about-contact { margin-top: 2rem; display: flex; flex-direction: column; gap: .6rem; }
+  .contact-item {
+    display: flex; align-items: center; gap: .8rem;
+    font-size: .82rem; color: var(--mid);
+  }
+  .contact-item svg { color: var(--gold); flex-shrink: 0; }
+
+  /* ── METRICS ── */
+  .metrics {
+    background: var(--ink);
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .metric-item {
+    padding: 3.5rem 3rem;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    position: relative; overflow: hidden;
+  }
+  .metric-item:last-child { border-right: none; }
+  .metric-item::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .4s ease;
+  }
+  .metric-item:hover::before { transform: scaleX(1); }
+  .metric-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem; font-weight: 900; color: var(--cream);
+    line-height: 1;
+  }
+  .metric-num span { color: var(--gold); }
+  .metric-label {
+    font-size: .78rem; color: rgba(245,240,232,0.45);
+    margin-top: .8rem; line-height: 1.5; letter-spacing: .04em;
+  }
+
+  /* ── EXPERIENCE ── */
+  .experience { background: var(--cream); }
+  .exp-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; }
+  .exp-nav { position: sticky; top: 8rem; align-self: start; }
+  .exp-nav-item {
+    padding: 1rem 0 1rem 1.5rem;
+    border-left: 2px solid var(--line);
+    cursor: pointer; transition: all .2s;
+    margin-bottom: .5rem;
+  }
+  .exp-nav-item.active, .exp-nav-item:hover { border-left-color: var(--gold); }
+  .exp-nav-company {
+    font-size: .9rem; font-weight: 500; color: var(--ink);
+    transition: color .2s;
+  }
+  .exp-nav-item.active .exp-nav-company, .exp-nav-item:hover .exp-nav-company { color: var(--gold); }
+  .exp-nav-date { font-size: .72rem; color: var(--mid); margin-top: .2rem; font-family: 'DM Mono', monospace; }
+
+  .exp-entries { display: flex; flex-direction: column; gap: 4rem; }
+  .exp-entry {
+    border-top: 1px solid var(--line); padding-top: 3rem;
+  }
+  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+  .exp-role {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700; margin-bottom: .4rem;
+  }
+  .exp-company { font-size: .85rem; color: var(--gold); font-weight: 500; letter-spacing: .04em; }
+  .exp-period {
+    font-family: 'DM Mono', monospace; font-size: .7rem;
+    color: var(--mid); letter-spacing: .1em; text-align: right;
+    white-space: nowrap;
+  }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: .9rem; }
+  .exp-bullets li {
+    font-size: .9rem; line-height: 1.7; color: #3a3530;
+    padding-left: 1.5rem; position: relative;
+  }
+  .exp-bullets li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--gold); font-size: .8rem;
+  }
+  .exp-tag-row { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1.2rem; }
+  .exp-tag {
+    font-size: .65rem; letter-spacing: .08em; text-transform: uppercase;
+    padding: .25rem .7rem; background: rgba(201,168,76,0.1);
+    color: var(--gold); border: 1px solid rgba(201,168,76,0.25);
+  }
+
+  /* ── SKILLS ── */
+  .skills { background: var(--white); }
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .skill-card {
+    padding: 2.5rem 2rem;
+    border: 1px solid var(--line); position: relative;
+    transition: all .3s; cursor: default;
+  }
+  .skill-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+  .skill-icon {
+    width: 3rem; height: 3rem;
+    background: var(--ink); color: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; margin-bottom: 1.5rem;
+  }
+  .skill-card-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: .8rem; }
+  .skill-card-desc { font-size: .82rem; line-height: 1.7; color: var(--mid); margin-bottom: 1.2rem; }
+  .skill-tools { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .skill-tool {
+    font-size: .62rem; letter-spacing: .08em; text-transform: uppercase;
+    padding: .2rem .6rem; background: var(--cream); color: var(--mid);
+    border: 1px solid var(--line);
+  }
+
+  /* ── ACHIEVEMENTS ── */
+  .achievements { background: var(--cream); }
+  .ach-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+  .ach-card {
+    background: var(--white);
+    padding: 2.5rem; display: flex; gap: 1.5rem;
+    border-bottom: 3px solid transparent; transition: border-color .3s;
+  }
+  .ach-card:hover { border-bottom-color: var(--gold); }
+  .ach-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem; font-weight: 900; color: rgba(201,168,76,0.15);
+    line-height: 1; flex-shrink: 0; width: 3.5rem;
+  }
+  .ach-content {}
+  .ach-metric {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700; color: var(--ink); line-height: 1;
+  }
+  .ach-metric span { color: var(--gold); }
+  .ach-desc { font-size: .85rem; color: var(--mid); line-height: 1.6; margin-top: .5rem; }
+
+  /* ── CERTIFICATIONS ── */
+  .certifications { background: var(--ink); }
+  .certifications .section-title { color: var(--cream); }
+  .certs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .cert-card {
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 2rem; transition: all .3s;
+  }
+  .cert-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+  .cert-issuer {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: .8rem;
+  }
+  .cert-name { font-size: .92rem; color: var(--cream); line-height: 1.5; font-weight: 400; }
+  .cert-year { font-size: .7rem; color: rgba(245,240,232,0.3); margin-top: .8rem; font-family: 'DM Mono', monospace; }
+
+  /* ── VOLUNTEER ── */
+  .volunteer { background: var(--white); }
+  .vol-card {
+    display: grid; grid-template-columns: 1fr 2fr; gap: 4rem;
+    background: var(--cream); padding: 3.5rem;
+    border-left: 4px solid var(--gold);
+  }
+  .vol-left {}
+  .vol-org {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 700; margin-bottom: .5rem;
+  }
+  .vol-role { font-size: .82rem; color: var(--gold); font-weight: 500; letter-spacing: .06em; margin-bottom: .5rem; }
+  .vol-date { font-family: 'DM Mono', monospace; font-size: .72rem; color: var(--mid); }
+  .vol-right { display: flex; flex-direction: column; gap: .8rem; }
+  .vol-item { font-size: .88rem; line-height: 1.7; color: #3a3530; padding-left: 1.5rem; position: relative; }
+  .vol-item::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+
+  /* ── CTA / CONTACT ── */
+  .cta-section {
+    background: var(--gold);
+    padding: 7rem 5rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  }
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 900;
+    color: var(--ink); line-height: 1.1;
+  }
+  .cta-title em { font-style: italic; }
+  .cta-right {}
+  .cta-desc { font-size: 1rem; color: rgba(13,13,13,0.7); line-height: 1.8; margin-bottom: 2.5rem; }
+  .cta-links { display: flex; flex-direction: column; gap: 1rem; }
+  .cta-link {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--ink); color: var(--cream);
+    padding: 1.1rem 1.8rem; text-decoration: none;
+    font-size: .82rem; letter-spacing: .1em; text-transform: uppercase;
+    transition: all .3s;
+  }
+  .cta-link:hover { background: rgba(13,13,13,0.85); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); color: rgba(245,240,232,0.35);
+    padding: 2.5rem 5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 1.5rem; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 9rem 1.5rem 5rem; }
+    .about { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 1.5rem; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .exp-grid { grid-template-columns: 1fr; }
+    .exp-nav { display: none; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .ach-grid { grid-template-columns: 1fr; }
+    .certs-grid { grid-template-columns: 1fr; }
+    .vol-card { grid-template-columns: 1fr; gap: 2rem; }
+    .cta-section { grid-template-columns: 1fr; }
+    .divider { margin: 0 1.5rem; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Ojochogwu M. Okwute</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#achievements">Results</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Available for Opportunities</div>
+    <h1 class="hero-name">
+      Ojochogwu<br><em>Micah</em><br>Okwute
+    </h1>
+    <p class="hero-title">Social Media Specialist · AI Content Strategist · Visual Content Creator with 5+ years turning digital presence into measurable growth.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">120K</div>
+        <div class="stat-label">Followers Grown</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">98.7%</div>
+        <div class="stat-label">AI Accuracy Rating</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">8+</div>
+        <div class="stat-label">Brands Managed</div>
+      </div>
+    </div>
+    <a href="#contact" class="hero-cta">
+      Let's Work Together
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-graphic">
+      <div class="concentric">
+        <div class="concentric-ring"></div>
+        <div class="concentric-ring"></div>
+        <div class="concentric-ring"></div>
+        <div class="concentric-ring"></div>
+      </div>
+      <div class="hero-tag tag-1">Content Strategy</div>
+      <div class="hero-tag tag-2">AI Evaluation</div>
+      <div class="hero-tag tag-3">Community Growth</div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-visual fade-up">
+    <div class="about-card">
+      <div class="about-card-label">Profile</div>
+      <div class="about-card-name">Ojochogwu Micah Okwute</div>
+      <div class="about-card-role">Dynamic Social Media Specialist with a rare combination of creative content mastery and AI/data expertise — bridging the worlds of brand storytelling and machine learning.</div>
+      <div class="about-badges">
+        <span class="badge">Nigeria</span>
+        <span class="badge">Open to Relocation</span>
+        <span class="badge">English C2</span>
+        <span class="badge">Hausa Native</span>
+        <span class="badge">Healthcare Background</span>
+      </div>
+    </div>
+  </div>
+  <div class="about-text fade-up">
+    <div class="section-label" data-num="01">About Me</div>
+    <h2 class="section-title" style="margin-bottom:1.5rem;">Where creativity meets<br>data-driven precision</h2>
+    <p>I'm a results-obsessed social media professional with <span class="highlight">5+ years of experience</span> across content strategy, AI data evaluation, and visual design. My work sits at the unique intersection of human storytelling and algorithmic thinking — I don't just create content, I build systems that scale.</p>
+    <p>With a background in nursing science, I bring a rare level of empathy and audience awareness to every campaign — understanding not just what people see, but how they feel and what they need. This translates into <span class="highlight">content that resonates, converts, and grows communities</span>.</p>
+    <p>Beyond social media, I've contributed to AI model improvement through annotation, RLHF workflows, and rubric development — earning a <span class="highlight">98.7% accuracy rating</span> across 15,000+ tasks. I understand how AI systems work, which makes me a sharper evaluator, strategist, and communicator in an AI-driven world.</p>
+    <div class="about-contact">
+      <div class="contact-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        Micahokwute@email.com
+      </div>
+      <div class="contact-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18a2 2 0 011.99-2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 6.82a16 16 0 006.29 6.29l.79-.79a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        +234 8127343410
+      </div>
+      <div class="contact-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        linkedin.com/in/ojochogwumicah
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS BAR -->
+<div class="metrics">
+  <div class="metric-item fade-up">
+    <div class="metric-num">62<span>%</span></div>
+    <div class="metric-label">Average YoY post engagement increase through visual design overhaul</div>
+  </div>
+  <div class="metric-item fade-up">
+    <div class="metric-num">35<span>%</span></div>
+    <div class="metric-label">Reduction in revision cycles after standardizing editorial rubrics</div>
+  </div>
+  <div class="metric-item fade-up">
+    <div class="metric-num">6.4<span>%</span></div>
+    <div class="metric-label">Average engagement rate vs 1.9% industry average for B2B clients</div>
+  </div>
+  <div class="metric-item fade-up">
+    <div class="metric-num">40<span>+</span></div>
+    <div class="metric-label">Posts published weekly across 8+ client brand accounts simultaneously</div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="section-header fade-up">
+    <div class="section-label" data-num="02">Professional Journey</div>
+    <h2 class="section-title">5+ Years of Measurable Impact</h2>
+  </div>
+  <div class="exp-grid">
+    <div class="exp-nav">
+      <div class="exp-nav-item active">
+        <div class="exp-nav-company">NovaMind Digital Agency</div>
+        <div class="exp-nav-date">Mar 2022 — Present</div>
+      </div>
+      <div class="exp-nav-item">
+        <div class="exp-nav-company">BrightWave Communications</div>
+        <div class="exp-nav-date">Jan 2020 — Feb 2022</div>
+      </div>
+      <div class="exp-nav-item">
+        <div class="exp-nav-company">Freelance / Various</div>
+        <div class="exp-nav-date">Jun 2019 — Dec 2019</div>
+      </div>
+    </div>
+    <div class="exp-entries">
+      <div class="exp-entry fade-up">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Senior Social Media Manager<br>& AI Content Evaluator</div>
+            <div class="exp-company">NovaMind Digital Agency · Lagos, Nigeria</div>
+          </div>
+          <div class="exp-period">Mar 2022<br>— Present</div>
+        </div>
+        <ul class="exp-bullets">
+          <li>Manage and publish content across Instagram, TikTok, LinkedIn, and Facebook for 8+ client brands — averaging 40+ posts per week across all platforms with consistent brand voice.</li>
+          <li>Developed and standardized editorial rubrics used across a 12-person content team, <strong>reducing revision cycles by 35%</strong> and measurably improving brand voice consistency.</li>
+          <li>Led quarterly content audits evaluating copy quality, visual alignment, and audience engagement against defined KPIs for all managed accounts.</li>
+          <li>Contracted as AI content evaluator — annotated and rated AI-generated outputs, providing structured feedback to improve model accuracy for a major LLM training project.</li>
+          <li>Designed social-first graphics, carousels, and Reel thumbnails using Adobe Photoshop, Illustrator, and Canva Pro; <strong>increased average post engagement by 62% YoY</strong>.</li>
+          <li>Grew combined follower base by <strong>120K in 18 months</strong> through strategic comment engagement and algorithmic visibility campaigns on TikTok and Instagram.</li>
+          <li>Coordinated with Product and Marketing teams across 5 departments to align social content with product launches and hiring campaigns.</li>
+        </ul>
+        <div class="exp-tag-row">
+          <span class="exp-tag">Content Strategy</span>
+          <span class="exp-tag">AI Evaluation</span>
+          <span class="exp-tag">Rubric Development</span>
+          <span class="exp-tag">Graphic Design</span>
+          <span class="exp-tag">Community Growth</span>
+        </div>
+      </div>
+      <div class="exp-entry fade-up">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Social Media Specialist<br>& Graphic Designer</div>
+            <div class="exp-company">BrightWave Communications · Abuja, Nigeria</div>
+          </div>
+          <div class="exp-period">Jan 2020<br>— Feb 2022</div>
+        </div>
+        <ul class="exp-bullets">
+          <li>Created and scheduled high-quality B2B and B2C content for LinkedIn and Instagram, achieving an average <strong>engagement rate of 6.4%</strong> vs. 1.9% industry average.</li>
+          <li>Designed visual assets including infographics, story templates, and branded video thumbnails using Figma and Adobe Creative Suite.</li>
+          <li>Implemented a content QA workflow — including guideline interpretation, consistency checks, and approval gates — that <strong>reduced error rates by 48%</strong>.</li>
+          <li>Performed competitive research and trend analysis via BuzzSumo and Google Trends, translating findings into actionable content recommendations.</li>
+          <li>Supported AI training projects through data categorization tasks, classifying social media content for sentiment, intent, and tone on a freelance basis.</li>
+        </ul>
+        <div class="exp-tag-row">
+          <span class="exp-tag">QA Workflows</span>
+          <span class="exp-tag">B2B Content</span>
+          <span class="exp-tag">Data Research</span>
+          <span class="exp-tag">Figma</span>
+          <span class="exp-tag">Adobe Suite</span>
+        </div>
+      </div>
+      <div class="exp-entry fade-up">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Junior Content Creator<br>& AI Data Annotator</div>
+            <div class="exp-company">Self-Employed / Various Clients · Remote</div>
+          </div>
+          <div class="exp-period">Jun 2019<br>— Dec 2019</div>
+        </div>
+        <ul class="exp-bullets">
+          <li>Produced platform-specific content for startup clients on Instagram and LinkedIn, managing brand voice from brief to post-publication.</li>
+          <li>Completed AI annotation and evaluation tasks for NLP and content moderation projects via Appen and Scale AI, delivering <strong>high-accuracy labeled datasets</strong> across 10+ projects.</li>
+          <li>Designed branded templates and promotional visuals using Canva and Adobe Photoshop for small businesses in the e-commerce sector.</li>
+        </ul>
+        <div class="exp-tag-row">
+          <span class="exp-tag">NLP Annotation</span>
+          <span class="exp-tag">Scale AI</span>
+          <span class="exp-tag">Appen</span>
+          <span class="exp-tag">Startup Content</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+  <div class="section-header fade-up">
+    <div class="section-label" data-num="03">Capabilities</div>
+    <h2 class="section-title">Full-Stack Digital Expertise</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card fade-up">
+      <div class="skill-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </div>
+      <div class="skill-card-title">Content Strategy</div>
+      <div class="skill-card-desc">End-to-end social media planning, editorial calendars, platform best practices, and rubric development that keeps teams aligned and brands consistent.</div>
+      <div class="skill-tools">
+        <span class="skill-tool">Hootsuite</span><span class="skill-tool">Buffer</span><span class="skill-tool">Later</span><span class="skill-tool">Sprout Social</span><span class="skill-tool">Meta Business Suite</span>
+      </div>
+    </div>
+    <div class="skill-card fade-up">
+      <div class="skill-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+      </div>
+      <div class="skill-card-title">AI Evaluation & Annotation</div>
+      <div class="skill-card-desc">Data labeling, model feedback, and RLHF workflows — achieved 98.7% accuracy across 15,000+ tasks, earning top-tier annotator status on Scale AI.</div>
+      <div class="skill-tools">
+        <span class="skill-tool">Scale AI</span><span class="skill-tool">Appen</span><span class="skill-tool">Labelbox</span><span class="skill-tool">Surge AI</span><span class="skill-tool">Amazon MTurk</span>
+      </div>
+    </div>
+    <div class="skill-card fade-up">
+      <div class="skill-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+      </div>
+      <div class="skill-card-title">Visual Content Creation</div>
+      <div class="skill-card-desc">Brand identity, social-first design, carousels, infographics, and Reel thumbnails that drive 62%+ engagement uplift through visual storytelling.</div>
+      <div class="skill-tools">
+        <span class="skill-tool">Photoshop</span><span class="skill-tool">Illustrator</span><span class="skill-tool">Canva Pro</span><span class="skill-tool">Figma</span><span class="skill-tool">Adobe Express</span>
+      </div>
+    </div>
+    <div class="skill-card fade-up">
+      <div class="skill-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </div>
+      <div class="skill-card-title">Analytics & Reporting</div>
+      <div class="skill-card-desc">Engagement metrics, performance tracking, A/B testing, and competitive analysis — turning data into actionable strategies that grow communities.</div>
+      <div class="skill-tools">
+        <span class="skill-tool">Google Analytics 4</span><span class="skill-tool">Instagram Insights</span><span class="skill-tool">TikTok Analytics</span><span class="skill-tool">SEMrush</span>
+      </div>
+    </div>
+    <div class="skill-card fade-up">
+      <div class="skill-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </div>
+      <div class="skill-card-title">Writing & Quality Assurance</div>
+      <div class="skill-card-desc">Social copy, captions, proofreading, and brand auditing with English C2 proficiency — reduced error rates by 48% through systematic QA workflows.</div>
+      <div class="skill-tools">
+        <span class="skill-tool">Grammarly Pro</span><span class="skill-tool">Hemingway Editor</span><span class="skill-tool">Copyscape</span>
+      </div>
+    </div>
+    <div class="skill-card fade-up">
+      <div class="skill-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+      </div>
+      <div class="skill-card-title">Video Editing</div>
+      <div class="skill-card-desc">Short-form video production, Reel creation, and thumbnailing for TikTok and Instagram — crafting platform-native video content that drives algorithmic reach.</div>
+      <div class="skill-tools">
+        <span class="skill-tool">CapCut</span><span class="skill-tool">Adobe Premiere Pro</span><span class="skill-tool">InShot</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section class="achievements" id="achievements">
+  <div class="section-header fade-up">
+    <div class="section-label" data-num="04">Key Results</div>
+    <h2 class="section-title">Numbers Don't Lie</h2>
+  </div>
+  <div class="ach-grid">
+    <div class="ach-card fade-up">
+      <div class="ach-num">01</div>
+      <div class="ach-content">
+        <div class="ach-metric"><span>2K → 85K</span> Followers</div>
+        <div class="ach-desc">Grew a client's TikTok from 2K to 85K followers in just 9 months through strategic content planning, trend adaptation, and comment engagement campaigns.</div>
+      </div>
+    </div>
+    <div class="ach-card fade-up">
+      <div class="ach-num">02</div>
+      <div class="ach-content">
+        <div class="ach-metric"><span>98.7%</span> Accuracy</div>
+        <div class="ach-desc">Achieved top-tier annotator status on Scale AI with a 98.7% accuracy rating across 15,000+ AI data evaluation tasks — a gold standard in the field.</div>
+      </div>
+    </div>
+    <div class="ach-card fade-up">
+      <div class="ach-num">03</div>
+      <div class="ach-content">
+        <div class="ach-metric"><span>310%</span> Organic Reach</div>
+        <div class="ach-desc">Increased LinkedIn organic reach for a B2B client by 310% in 6 months through targeted content restructuring and an employee advocacy program.</div>
+      </div>
+    </div>
+    <div class="ach-card fade-up">
+      <div class="ach-num">04</div>
+      <div class="ach-content">
+        <div class="ach-metric"><span>40%</span> Faster Production</div>
+        <div class="ach-desc">Designed a visual content system adopted company-wide, reducing design production time by 40% through reusable Canva and Figma templates.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section class="certifications">
+  <div class="section-header fade-up">
+    <div class="section-label" data-num="05" style="color:var(--gold);">Credentials</div>
+    <h2 class="section-title">Certified. Verified. Current.</h2>
+  </div>
+  <div class="certs-grid">
+    <div class="cert-card fade-up">
+      <div class="cert-issuer">Meta / Coursera</div>
+      <div class="cert-name">Meta Social Media Marketing Professional Certificate</div>
+      <div class="cert-year">2023</div>
+    </div>
+    <div class="cert-card fade-up">
+      <div class="cert-issuer">Google</div>
+      <div class="cert-name">Google Digital Marketing & E-commerce Certificate</div>
+      <div class="cert-year">2022</div>
+    </div>
+    <div class="cert-card fade-up">
+      <div class="cert-issuer">Adobe</div>
+      <div class="cert-name">Adobe Certified Professional: Photoshop</div>
+      <div class="cert-year">2021</div>
+    </div>
+    <div class="cert-card fade-up">
+      <div class="cert-issuer">DeepLearning.AI</div>
+      <div class="cert-name">AI Fundamentals for Content Professionals</div>
+      <div class="cert-year">2023</div>
+    </div>
+    <div class="cert-card fade-up">
+      <div class="cert-issuer">HubSpot</div>
+      <div class="cert-name">HubSpot Content Marketing Certification</div>
+      <div class="cert-year">2022</div>
+    </div>
+    <div class="cert-card fade-up">
+      <div class="cert-issuer">University of Maiduguri</div>
+      <div class="cert-name">BSc in Nursing Science — Foundation of Audience Empathy</div>
+      <div class="cert-year">2015 – 2019</div>
+    </div>
+  </div>
+</section>
+
+<!-- VOLUNTEER -->
+<section class="volunteer">
+  <div class="section-header fade-up">
+    <div class="section-label" data-num="06">Community Impact</div>
+    <h2 class="section-title">Giving Back Through Strategy</h2>
+  </div>
+  <div class="vol-card fade-up">
+    <div class="vol-left">
+      <div class="vol-org">TEDx BulumkutuEd</div>
+      <div class="vol-role">Marketing Team Lead (Volunteer)</div>
+      <div class="vol-date">2024 · Maiduguri, Nigeria</div>
+    </div>
+    <div class="vol-right">
+      <div class="vol-item">Led the full marketing and social media strategy for TEDx BulumkutuEd, coordinating a volunteer team to maximize event visibility across Instagram and LinkedIn.</div>
+      <div class="vol-item">Created and published promotional content including event graphics, speaker spotlights, and countdown posts — growing the event's social reach by over <strong>200%</strong> vs. the previous edition.</div>
+      <div class="vol-item">Collaborated with events and logistics teams to align marketing timelines with speaker announcements and ticket sales milestones.</div>
+      <div class="vol-item">Developed all branded visual assets using Canva Pro and Adobe Photoshop while maintaining strict TEDx brand guidelines throughout the campaign.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / CONTACT -->
+<section class="cta-section" id="contact">
+  <div>
+    <h2 class="cta-title">Ready to build<br>something <em>great</em><br>together?</h2>
+  </div>
+  <div class="cta-right">
+    <p class="cta-desc">I bring 5+ years of proven social media impact, deep AI content expertise, and the creative + analytical skills to elevate your team from day one. I'm fully prepared to contribute immediately and open to relocation.</p>
+    <div class="cta-links">
+      <a href="mailto:Micahokwute@email.com" class="cta-link">
+        Email Me Directly
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="https://linkedin.com/in/ojochogwumicah" target="_blank" class="cta-link" style="background: rgba(13,13,13,0.7);">
+        Connect on LinkedIn
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="tel:+2348127343410" class="cta-link" style="background: rgba(13,13,13,0.5);">
+        Call: +234 8127343410
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Ojochogwu Micah Okwute</span>
+  <span>Social Media Specialist · AI Content Strategist · Visual Creator</span>
+  <span>Nigeria · Open to Relocation</span>
+</footer>
+
+<script>
+  // Intersection observer for fade-up animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, (entry.target.dataset.delay || 0) * 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach((el, i) => {
+    el.dataset.delay = i % 4;
+    observer.observe(el);
+  });
+
+  // Animate metric numbers
+  function animateCount(el, target, suffix) {
+    let start = 0;
+    const duration = 1800;
+    const startTime = performance.now();
+    const isDecimal = target % 1 !== 0;
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = start + (target - start) * eased;
+      el.textContent = isDecimal ? current.toFixed(1) : Math.round(current);
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const metricObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const nums = entry.target.querySelectorAll('.metric-num');
+        nums.forEach(el => {
+          const text = el.innerHTML;
+          const match = text.match(/([0-9.]+)/);
+          if (match) {
+            const suffix = text.replace(match[1], '');
+            const target = parseFloat(match[1]);
+            el.innerHTML = `0<span>${suffix.includes('<span>') ? suffix.match(/<span>(.*?)<\/span>/)?.[1] || '' : ''}</span>`;
+            animateCount(el.firstChild ? el : el, target, '');
+          }
+        });
+        metricObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const metricsEl = document.querySelector('.metrics');
+  if (metricsEl) metricObserver.observe(metricsEl);
+</script>
+</body>
+</html>
